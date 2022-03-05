@@ -2,6 +2,8 @@ package Controller;
 
 import Database.JDBC;
 import Model.Wrestler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,19 +23,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
+    public TableColumn rosterAddressCol;
+    public TableColumn rosterZipCol;
+    public TableColumn notesCol;
     Stage stage;
     Parent scene;
     ResourceBundle rs;
     PreparedStatement ps;
     Connection myConn = JDBC.getConnection();
-
-    public TableColumn rosterGenderCol;
-    public TableColumn rosterIdCol;
-    @FXML
-    private Button logoutBtn;
-
-    @FXML
-    private Button reportsBtn;
 
     @FXML
     private TableView<Wrestler> rosterTable;
@@ -45,16 +42,10 @@ public class MainMenuController implements Initializable {
     private TableColumn<?, ?> rosterFirstNameCol;
 
     @FXML
-    private TableColumn<?, ?> rosterLastNameCol;
-
-    @FXML
-    private TableColumn<?, ?> rosterParentNameCol;
-
-    @FXML
     private TableColumn<?, ?> rosterAageGroupCol;
 
     @FXML
-    private TableColumn<?, ?> rosterDobCol;
+    private TableColumn<?, ?> rosterParentNameCol;
 
     @FXML
     private TableColumn<?, ?> rosterEmailCol;
@@ -62,14 +53,18 @@ public class MainMenuController implements Initializable {
     @FXML
     private TableColumn<?, ?> rosterPhoneCol;
 
-    @FXML
-    private TableColumn<?, ?> rosterSchoolCol;
 
     @FXML
-    private TableColumn<?, ?> rosterDatabaseIdCol;
+    private TableColumn<?, ?> rosterDobCol;
 
     @FXML
-    private ToggleGroup views;
+    private TableColumn<?, ?> rosterGenderCol;
+
+    @FXML
+    private TableColumn<?, ?> rosterIdCol;
+
+    @FXML
+    private TableColumn<?, ?> rosterNotes;
 
     @FXML
     private TextField wrestlerSearch;
@@ -104,35 +99,24 @@ public class MainMenuController implements Initializable {
     @FXML
     private TextField parentSearch;
 
+
     @FXML
     void logoutOnBtn(ActionEvent event) {
 
     }
 
-
     @FXML
-    void parentDeleteBtn(ActionEvent event) {
+    void reportsOnBtn(ActionEvent event) throws IOException {
 
-    }
-
-    @FXML
-    void parentModifyBtn(ActionEvent event) {
-
-    }
-
-    @FXML
-    void parentSearchOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void reportsOnBtn(ActionEvent event) {
-
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../View/ReportsView.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
     void rosterDeleteOnActionBtn(ActionEvent event) throws SQLException {
-        Wrestler selectedWrestler = rosterTable.getSelectionModel().getSelectedItem();
+        Wrestler selectedWrestler = (Wrestler) rosterTable.getSelectionModel().getSelectedItem();
 
         if (selectedWrestler == null) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -144,13 +128,13 @@ public class MainMenuController implements Initializable {
             Alert alertConfirmation = new Alert(Alert.AlertType.CONFIRMATION);
             alertConfirmation.setTitle("Alert");
             alertConfirmation.setHeaderText("Deletion Warning");
-            alertConfirmation.setContentText("Press OK to confirm deletion of " + selectedWrestler.getFirstName() +" "+selectedWrestler.getLastName());
+            alertConfirmation.setContentText("Press OK to confirm deletion of " + selectedWrestler.getWrestlerName());
             Optional<ButtonType> confirm = alertConfirmation.showAndWait();
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-                Wrestler.getWrestlerObservableList().remove(selectedWrestler);
-                int wrestlerId = selectedWrestler.getMemberId();
+                Wrestler.getDBwrestlerObservableList().remove(selectedWrestler);
+                int wrestlerId = selectedWrestler.getId();
 
-                ps = myConn.prepareStatement("DELETE FROM roster WHERE Member_ID = ?");
+                ps = myConn.prepareStatement("DELETE FROM roster WHERE ID = ?");
                 ps.setInt(1, wrestlerId);
                 ps.executeUpdate();
                 System.out.println("Wrestler Deleted");
@@ -184,6 +168,11 @@ public class MainMenuController implements Initializable {
     @FXML
     void wrestlerSearchOnAction(ActionEvent event) {
 
+        if (wrestlerSearch.getText().isEmpty()){
+            rosterTable.setItems(Wrestler.getDBwrestlerObservableList());
+        }else{
+            rosterTable.setItems(Wrestler.lookupWrestler(wrestlerSearch.getText()));
+        }
     }
 
 
@@ -213,19 +202,23 @@ public class MainMenuController implements Initializable {
         JDBC.mysqlDatabase = new JDBC();
         JDBC.mysqlDatabase.getDatabaseRoster();
 
-        rosterIdCol.setCellValueFactory(new PropertyValueFactory<>("memberId"));
-        rosterUsawIdCol.setCellValueFactory(new PropertyValueFactory<>("usawId"));
-        rosterFirstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        rosterLastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        rosterParentNameCol.setCellValueFactory(new PropertyValueFactory<>("parentName"));
-        rosterDobCol.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
-        rosterAageGroupCol.setCellValueFactory(new PropertyValueFactory<>("ageGroup"));
-        rosterSchoolCol.setCellValueFactory(new PropertyValueFactory<>("school"));
-        rosterPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        rosterGenderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        rosterEmailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        rosterTable.setItems(Wrestler.getWrestlerObservableList());
+        rosterUsawIdCol.setCellValueFactory(new PropertyValueFactory<>("usawID"));
+        rosterFirstNameCol.setCellValueFactory(new PropertyValueFactory<>("wrestlerName"));
+        rosterAageGroupCol.setCellValueFactory(new PropertyValueFactory<>("ageGroup"));
+        rosterParentNameCol.setCellValueFactory(new PropertyValueFactory<>("parentName"));
+        rosterEmailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        rosterPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        rosterAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        rosterZipCol.setCellValueFactory(new PropertyValueFactory<>("zip"));
+        rosterDobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        rosterGenderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        rosterIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        notesCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
+
+
+        rosterTable.setItems(Wrestler.getDBwrestlerObservableList());
+
 
     }
 

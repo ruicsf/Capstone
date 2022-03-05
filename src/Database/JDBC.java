@@ -66,54 +66,56 @@ public class JDBC {
     }
 
 
-    /**
-     * Method used for login credentials validation
-     *
-     * @param username username used for validation
-     * @param pass     password used for validation
-     * @return returns true if username and password match, otherwise returns false.
-     * @throws SQLException
-     */
-    public boolean DBaccessValidation(String username, String pass) throws SQLException {
+//    /**
+//     * Method used for login credentials validation
+//     *
+//     * @param username username used for validation
+//     * @param pass     password used for validation
+//     * @return returns true if username and password match, otherwise returns false.
+//     * @throws SQLException
+//     */
+//    public boolean DBaccessValidation(String username, String pass) throws SQLException {
+//
+//        prepStmt = getConnection().prepareStatement("SELECT * FROM users WHERE User_Name=? ");
+//        prepStmt.setString(1, username);
+//        resultSet = prepStmt.executeQuery();
+//        if (!resultSet.next()) {
+//            return false;
+//        }
+//        if (pass.matches(resultSet.getString("Password"))) {
+//            int loggedUserID = resultSet.getInt("User_ID");
+//            String loggedUsername = resultSet.getString("User_Name");
+//            return true;
+//        }
+//        return false;
+//    }
 
-        prepStmt = getConnection().prepareStatement("SELECT * FROM users WHERE User_Name=? ");
-        prepStmt.setString(1, username);
-        resultSet = prepStmt.executeQuery();
-        if (!resultSet.next()) {
-            return false;
-        }
-        if (pass.matches(resultSet.getString("Password"))) {
-            int loggedUserID = resultSet.getInt("User_ID");
-            String loggedUsername = resultSet.getString("User_Name");
-            return true;
-        }
-        return false;
-    }
-
-    public void getDatabaseRoster() {
+    public int getDatabaseRoster() {
 
         try {
             String select = "SELECT * FROM roster;";
             prepStmt = myConn.prepareStatement(select);
 
             resultSet = prepStmt.executeQuery();
-            Wrestler.getWrestlerObservableList().clear();
+            Wrestler.getDBwrestlerObservableList().clear();
 
             while (resultSet.next()) {
 
 
-                Wrestler.getWrestlerObservableList().add(
-                        new Wrestler(resultSet.getInt("Member_ID"),
+                Wrestler.getDBwrestlerObservableList().add(
+                        new Wrestler(
+
                                 resultSet.getInt("USAW_ID"),
-                                resultSet.getString("First_Name"),
-                                resultSet.getString("Last_Name"),
-                                resultSet.getString("Parent_Name"),
-                                resultSet.getTimestamp("DOB").toLocalDateTime().toLocalDate(),
+                                resultSet.getString("Wrestler_Name"),
                                 resultSet.getString("Age_Group"),
-                                resultSet.getString("School"),
-                                resultSet.getString("Phone"),
-                                resultSet.getString("Gender"),
+                                resultSet.getString("Parent_Name"),
                                 resultSet.getString("Email"),
+                                resultSet.getString("Phone"),
+                                resultSet.getString("Address"),
+                                resultSet.getInt("Zip"),
+                                resultSet.getTimestamp("DOB").toLocalDateTime().toLocalDate(),
+                                resultSet.getString("Gender"),
+                                resultSet.getInt("ID"),
                                 resultSet.getString("Notes")
 
                         )
@@ -123,6 +125,7 @@ public class JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return Wrestler.getDBwrestlerObservableList().size();
     }
 
 }

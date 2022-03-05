@@ -3,13 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -25,7 +23,7 @@
             <children>
                 <GridPane prefHeight="38.0" prefWidth="1224.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="110.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="110.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="8.0" prefWidth="107.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1116.0" minWidth="10.0" prefWidth="1022.0" />
                     </columnConstraints>
@@ -46,34 +44,36 @@
                                 <Insets left="10.0" />
                             </GridPane.margin>
                         </Button>
-                        <Button fx:id="reportsBtn" layoutX="20.0" layoutY="18.0" mnemonicParsing="false" onAction="#reportsOnBtn" prefHeight="25.0" prefWidth="87.0" text="Reports" GridPane.columnIndex="1" />
+                        <Button fx:id="reportsBtn" layoutX="20.0" layoutY="18.0" mnemonicParsing="false" onAction="#reportsOnBtn" prefHeight="25.0" prefWidth="76.0" text="Reports" GridPane.columnIndex="1" />
                     </children>
                 </GridPane>
             </children>
         </HBox>
     </top>
     <center>
-        <TabPane minWidth="-Infinity" prefHeight="459.0" prefWidth="1300.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <TabPane minWidth="-Infinity" prefHeight="438.0" prefWidth="1279.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
                 <Tab text="Wrestler Roster">
                     <content>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="1301.0">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="1296.0">
                             <children>
                                 <VBox layoutX="34.0" layoutY="41.0" prefHeight="309.0" prefWidth="1229.0">
                                     <children>
                                         <TableView fx:id="rosterTable" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="1228.0">
                                             <columns>
-                                                <TableColumn fx:id="rosterUsawIdCol" maxWidth="124.0" prefWidth="81.99996948242188" text="USAW ID" />
-                                                <TableColumn fx:id="rosterFirstNameCol" prefWidth="139.0" text="First Name" />
-                                    <TableColumn fx:id="rosterLastNameCol" prefWidth="147.0" text="Last Name" />
-                                                <TableColumn fx:id="rosterParentNameCol" minWidth="0.0" prefWidth="164.0" text="Parent's Name" />
-                                                <TableColumn fx:id="rosterAageGroupCol" prefWidth="79.0" text="Age Group" />
-                                                <TableColumn fx:id="rosterDobCol" prefWidth="129.0" text="DOB" />
-                                                <TableColumn fx:id="rosterEmailCol" prefWidth="144.0" text="Email" />
-                                                <TableColumn fx:id="rosterPhoneCol" prefWidth="138.0" text="Phone" />
-                                    <TableColumn fx:id="rosterSchoolCol" minWidth="0.0" prefWidth="106.0" text="School" />
-                                                <TableColumn fx:id="rosterGenderCol" prefWidth="47.0" text="Gender" />
-                                    <TableColumn fx:id="rosterIdCol" prefWidth="52.0" text="ID" />
+
+                                                <TableColumn fx:id="rosterUsawIdCol" maxWidth="75.0" prefWidth="161.99996948242188" text="USAW ID" />
+                                                <TableColumn fx:id="rosterFirstNameCol" prefWidth="131.0" text="Wrestler's Name" />
+                                                <TableColumn fx:id="rosterAageGroupCol" prefWidth="121.0" text="Age Group" />
+                                    <TableColumn fx:id="rosterParentNameCol" prefWidth="114.0" text="Parent Name" />
+                                                <TableColumn fx:id="rosterEmailCol" maxWidth="412.0" minWidth="9.0" prefWidth="88.0" style="-fx-alignment: center-left;" text="Email" />
+                                                <TableColumn fx:id="rosterPhoneCol" maxWidth="484.0" prefWidth="89.0" text="Phone" />
+                                    <TableColumn fx:id="rosterAddressCol" maxWidth="150.0" prefWidth="73.0" text="Adress" />
+                                    <TableColumn fx:id="rosterZipCol" maxWidth="150.0" prefWidth="109.0" text="Zip Code" />
+                                                <TableColumn fx:id="rosterDobCol" prefWidth="69.0" text="DOB" />
+                                                <TableColumn fx:id="rosterGenderCol" prefWidth="99.0" text="Gender" />
+                                    <TableColumn fx:id="notesCol" prefWidth="211.0" text="Notes" />
+                                    <TableColumn fx:id="rosterIdCol" prefWidth="44.0" text="ID" />
                                             </columns>
                                  <VBox.margin>
                                     <Insets />
@@ -96,63 +96,12 @@
                                                 <Button mnemonicParsing="false" onAction="#rosterAddOnActionBtn" text="Add" GridPane.rowIndex="1" />
                                                 <Button layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#rosterModifyOnActionBtn" prefHeight="25.0" prefWidth="62.0" text="Modify" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                 <Button layoutX="88.0" layoutY="13.0" mnemonicParsing="false" onAction="#rosterDeleteOnActionBtn" prefHeight="25.0" prefWidth="62.0" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                                    <children>
-                                                        <RadioButton mnemonicParsing="false" prefHeight="0.0" prefWidth="120.0" text="View All ">
-                                                            <toggleGroup>
-                                                                <ToggleGroup fx:id="views" />
-                                                            </toggleGroup></RadioButton>
-                                                    </children>
-                                                </VBox>
-                                                  <RadioButton mnemonicParsing="false" text="Week view" toggleGroup="$views" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                            <RadioButton mnemonicParsing="false" prefHeight="9.0" prefWidth="86.0" text="Month View" toggleGroup="$views" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                             </children>
                                         </GridPane>
                                     </children>
                                 </VBox>
-                        <TextField fx:id="wrestlerSearch" alignment="CENTER" layoutX="34.0" layoutY="14.0" maxWidth="-Infinity" onAction="#wrestlerSearchOnAction" prefHeight="25.0" prefWidth="182.0" promptText="Search by Part ID or Name" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab text="Wrestler Parents">
-                    <content>
-                        <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="1299.0">
-                            <children>
-                                <VBox layoutX="77.0" layoutY="41.0" prefHeight="309.0" prefWidth="727.0">
-                                    <children>
-                                        <TableView fx:id="praentTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="261.0" prefWidth="1149.0">
-                                            <columns>
-                                                <TableColumn fx:id="parentFirstNameCol" prefWidth="108.0" text="First Name" />
-                                                <TableColumn fx:id="parentLastName" prefWidth="138.0" text="Last Name" />
-                                                <TableColumn fx:id="parentWrestlerNameCol" prefWidth="136.0" text="Wrestler Name" />
-                                                <TableColumn fx:id="parentEmailCol" prefWidth="145.0" text="Email" />
-                                                <TableColumn fx:id="parentPhoneCol" prefWidth="173.0" text="Phone Number" />
-                                    <TableColumn fx:id="parentAddresCol" prefWidth="156.0" text="Address" />
-                                    <TableColumn fx:id="parentZipCol" prefWidth="209.0" text="Zip Code" />
-                                                <TableColumn fx:id="databseIdCol" prefWidth="94.0" text="Database ID" />
-                                            </columns>
-                                        </TableView>
-                                        <GridPane prefHeight="55.0" prefWidth="727.0">
-                                            <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="62.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="465.0" minWidth="10.0" prefWidth="94.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="553.0" minWidth="10.0" prefWidth="550.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="492.0" minWidth="10.0" prefWidth="398.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                            <children>
-                                                <Button mnemonicParsing="false" onAction="#parentAddBtn" text="Add" />
-                                                <Button layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#parentModifyBtn" prefHeight="25.0" prefWidth="62.0" text="Modify" GridPane.columnIndex="1" />
-                                                <Button layoutX="71.0" layoutY="12.0" mnemonicParsing="false" onAction="#parentDeleteBtn" prefHeight="25.0" prefWidth="62.0" text="Delete" GridPane.columnIndex="2" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" />
-                                            </children>
-                                        </GridPane>
-                                    </children>
-                                </VBox>
-                        <TextField fx:id="parentSearch" alignment="CENTER" layoutX="77.0" layoutY="14.0" maxWidth="-Infinity" onAction="#parentSearchOnAction" prefHeight="25.0" prefWidth="182.0" promptText="Search by Part ID or Name" />
+                        <TextField fx:id="wrestlerSearch" alignment="CENTER" layoutX="34.0" layoutY="14.0" maxWidth="-Infinity" onAction="#wrestlerSearchOnAction" prefHeight="25.0" prefWidth="182.0" promptText="Search by wrestler name...." />
                             </children>
                         </AnchorPane>
                     </content>

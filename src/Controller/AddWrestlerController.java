@@ -26,106 +26,137 @@ import java.util.ResourceBundle;
 public class AddWrestlerController implements Initializable {
 
 
-    public TextField notesAdd;
+    public TextField wrestlerNameText;
     @FXML
     private TextField idAdd;
 
     @FXML
-    private TextField usawIdAdd;
+    private TextField usawIText;
 
     @FXML
-    private TextField firstNameAdd;
+    private TextField firstNameText;
 
     @FXML
-    private TextField lastNameAdd;
+    private TextField parentNameText;
 
     @FXML
-    private TextField parentNameAdd;
+    private DatePicker dobDP;
 
     @FXML
-    private DatePicker dobDPadd;
+    private TextField phoneText;
 
     @FXML
-    private TextField schoolAdd;
+    private TextField emailText;
 
     @FXML
-    private TextField phoneAdd;
+    private ComboBox<String> ageGroupCB;
 
     @FXML
-    private TextField emailAdd;
+    private TextField notesText;
 
     @FXML
-    private ComboBox<String> genderAddCB;
+    private ComboBox<String> genderCB;
 
     @FXML
-    private ComboBox<String> ageGroupCBadd;
+    private TextField addressText;
 
+    @FXML
+    private TextField zipText;
     Stage stage;
     Parent scene;
     PreparedStatement ps;
     Connection myConn = JDBC.getConnection();
 
-    @FXML
-    void cancelWrestlerBtn(ActionEvent event) {
 
+    public void insertDB() throws SQLException {
+        int usawID = Integer.parseInt(usawIText.getText());
+        String wrestlerName = wrestlerNameText.getText();
+        String ageGroup = ageGroupCB.getValue();
+        String parentName = parentNameText.getText();
+        String email = emailText.getText();
+        String phone = phoneText.getText();
+        String address = addressText.getText();
+        int zip = Integer.parseInt(zipText.getText());
+        LocalDate dob = dobDP.getValue();
+        String gender = genderCB.getValue();
+        String notes = notesText.getText();
 
+        //                                       1         2              3          4         5       6       7     8     9     10      11
+        String insert = "INSERT INTO roster (USAW_ID, Wrestler_Name, Age_Group, Parent_Name, Email, Phone, Address, Zip, DOB, Gender,  Notes) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        ps = myConn.prepareStatement(insert);
+        ps.setInt(1, usawID);
+        ps.setString(2, wrestlerName);
+        ps.setString(3, ageGroup);
+        ps.setString(4, parentName);
+        ps.setString(5, email);
+        ps.setString(6, phone);
+        ps.setString(7, address);
+        ps.setInt(8, zip);
+        ps.setDate(9, Date.valueOf(dob));
+        ps.setString(10, gender);
+        ps.setString(11, notes);
+
+        ps.executeUpdate();
     }
+
+    public void updateDB() throws SQLException {
+        int usawID = Integer.parseInt(usawIText.getText());
+        String wrestlerName = wrestlerNameText.getText();
+        String ageGroup = ageGroupCB.getValue();
+        String parentName = parentNameText.getText();
+        String email = emailText.getText();
+        String phone = phoneText.getText();
+        String address = addressText.getText();
+        int zip = Integer.parseInt(zipText.getText());
+        LocalDate dob = dobDP.getValue();
+        String gender = genderCB.getValue();
+        String notes = notesText.getText();
+
+
+        //                                 //1             2                3          4          5         6         7       8      9      10        11           12
+        String update = "UPDATE roster SET USAW_ID = ?,Wrestler_Name=?,Age_Group=?,Parent_Name=?,Email=?, Phone=?, Address=?, Zip=?, DOB=?,Gender=?, Notes=? WHERE ID=?;";
+        ps = myConn.prepareStatement(update);
+        ps.setInt(1, usawID);
+        ps.setString(2, wrestlerName);
+        ps.setString(3, ageGroup);
+        ps.setString(4, parentName);
+        ps.setString(5, email);
+        ps.setString(6, phone);
+        ps.setString(7, address);
+        ps.setInt(8, zip);
+        ps.setDate(9, Date.valueOf(dob));
+        ps.setString(10, gender);
+        ps.setString(11, notes);
+        ps.setInt(12, Wrestler.tempWrestler.getId());
+
+        Wrestler.tempWrestler = null;
+        ps.executeUpdate();
+    }
+
 
     @FXML
     void saveWrestlerBtn(ActionEvent event) throws SQLException, IOException {
 
-        int usawID = Integer.parseInt(usawIdAdd.getText());
-        String firstName = firstNameAdd.getText();
-        String lastName = lastNameAdd.getText();
-        String parentName = parentNameAdd.getText();
-        LocalDate dob = dobDPadd.getValue();
-        String ageGroup = ageGroupCBadd.getValue();
-        String school = schoolAdd.getText();
-        String phone = phoneAdd.getText();
-        String gender = genderAddCB.getValue();
-        String email = emailAdd.getText();
-        String notes = notesAdd.getText();
+        if (Wrestler.tempWrestler != null) {
 
-        if (Wrestler.tempWrestler != null){
-                                                //1            2            3           4             5        6      7       8       9        10        11             12
-            String update = "UPDATE roster SET USAW_ID = ?,First_Name=?,Last_Name=?,Parent_Name=?,Age_Group=?,DOB=?,Email=?,Phone=?,School=?,Gender=?, Notes=? WHERE Member_ID=?;";
-            ps = myConn.prepareStatement(update);
-            ps.setInt(1, usawID);
-            ps.setString(2, firstName);
-            ps.setString(3, lastName);
-            ps.setString(4, parentName);
-            ps.setString(5, ageGroup);
-            ps.setDate(6, Date.valueOf(dob));
-            ps.setString(7, email);
-            ps.setString(8, phone);
-            ps.setString(9, school);
-            ps.setString(10, gender);
-            ps.setString(11, notes);
-            ps.setInt(12, Wrestler.tempWrestler.getMemberId());
+            updateDB();
 
-            Wrestler.tempWrestler = null;
-            ps.executeUpdate();
+        } else {
 
-        }else{
-            // 1        2               3       4           5          6    7       8   9          10     11
-            String insert = "INSERT INTO roster (USAW_ID, First_Name, Last_Name, Parent_Name, Age_Group, DOB, Email, Phone, School, Gender, Notes) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
-            ps = myConn.prepareStatement(insert);
-            ps.setInt(1, usawID);
-            ps.setString(2, firstName);
-            ps.setString(3, lastName);
-            ps.setString(4, parentName);
-            ps.setString(5, ageGroup);
-            ps.setDate(6, Date.valueOf(dob));
-            ps.setString(7, email);
-            ps.setString(8, phone);
-            ps.setString(9, school);
-            ps.setString(10, gender);
-            ps.setString(11, notes);
+            insertDB();
 
-            ps.executeUpdate();
         }
 
-        
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+    @FXML
+    void cancelWrestlerBtn(ActionEvent event) throws IOException {
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
         stage.setScene(new Scene(scene));
@@ -134,39 +165,34 @@ public class AddWrestlerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         ObservableList<String> genderList = FXCollections.observableArrayList("M", "F");
         ObservableList<String> ageGroupList = FXCollections.observableArrayList("8U", "10U", "12U", "14U", "16U", "18U");
 
-        ageGroupCBadd.setItems(ageGroupList);
-        genderAddCB.setItems(genderList);
+        ageGroupCB.setItems(ageGroupList);
+        genderCB.setItems(genderList);
 
-        if (Wrestler.tempWrestler != null){
+        // Used for editing/ modify
+        if (Wrestler.tempWrestler != null) {
             Wrestler wrestler = Wrestler.tempWrestler;
 
-            usawIdAdd.setText(String.valueOf(wrestler.getUsawId()));
-            firstNameAdd.setText(wrestler.getFirstName());
-            lastNameAdd.setText(wrestler.getLastName());
-            parentNameAdd.setText(wrestler.getParentName());
-            ageGroupCBadd.setValue(wrestler.getAgeGroup());
-            dobDPadd.setValue(wrestler.getDateOfBirth());
-            emailAdd.setText(wrestler.getEmail());
-            phoneAdd.setText(wrestler.getPhone());
-            schoolAdd.setText(wrestler.getSchool());
-            genderAddCB.setValue(wrestler.getGender());
-            notesAdd.setText(wrestler.getRosterNotes());
-            int wrestlerId = wrestler.getMemberId();
-            idAdd.setText(String.valueOf(wrestlerId));
+            usawIText.setText(String.valueOf(wrestler.getUsawID()));
+            wrestlerNameText.setText(wrestler.getWrestlerName());
+            parentNameText.setText(wrestler.getParentName());
+            ageGroupCB.setValue(wrestler.getAgeGroup());
+            dobDP.setValue(wrestler.getDob());
+            emailText.setText(wrestler.getEmail());
+            phoneText.setText(wrestler.getPhone());
+            genderCB.setValue(wrestler.getGender());
+            notesText.setText(wrestler.getNotes());
+            idAdd.setText(String.valueOf(wrestler.getId()));
+
+            // clears java list out but maintains tempwrestler
+            Wrestler.tempWrestler = null;
 
         }
 
 
-
-
-
-
-
-
-
-
     }
+
 }

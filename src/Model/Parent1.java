@@ -1,6 +1,6 @@
 package Model;
 
-public class Parent {
+public class Parent1 {
 
     private String parentFirstName;
     private String parentLastName;
@@ -12,7 +12,7 @@ public class Parent {
     private String dbId;
     private String parentNotes;
 
-    public Parent(String parentName, String lastName, String wrestlerName, String parentEmail, String parentPhone, String parentAddress, String parentZip, String dbId, String notes) {
+    public Parent1(String parentName, String lastName, String wrestlerName, String parentEmail, String parentPhone, String parentAddress, String parentZip, String dbId, String notes) {
         this.parentFirstName = parentName;
         this.parentLastName = lastName;
         this.wrestlerName = wrestlerName;

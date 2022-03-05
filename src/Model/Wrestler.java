@@ -1,103 +1,134 @@
 package Model;
 
+import Controller.AgeGroupInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class Wrestler {
+public class Wrestler implements AgeGroupInterface {
 
-    private int memberId;
-    private int usawId;
-    private String firstName;
-    private String lastName;
-    private String ParentName;
-    private LocalDate dateOfBirth;
+    private int usawID;
+    private String wrestlerName;
     private String ageGroup;
-    private String school;
-    private String phone;
-    private String gender;
+    private String parentName;
     private String email;
-    private String rosterNotes;
+    private String phone;
+    private String address;
+    private int zip;
+    private LocalDate dob;
+    private String gender;
+    private int id;
+    private String notes;
 
 
-    private static ObservableList<Wrestler> wrestlerObservableList = FXCollections.observableArrayList();
+    private static ObservableList<Wrestler> DBwrestlerObservableList = FXCollections.observableArrayList();
 
-    public static ObservableList<Wrestler> getWrestlerObservableList() {
-        return wrestlerObservableList;
-    }
+    public ObservableList<Wrestler> filteredWrestlerList = FXCollections.observableArrayList();
+
 
     public static Wrestler tempWrestler;
 
 
-    public Wrestler(int databaseId, int usawId, String firstName, String lastName, String parentName, LocalDate dateOfBirth, String ageGroup, String school, String phone, String gender, String email, String rosterNotes) {
-        this.memberId = databaseId;
-        this.usawId = usawId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        ParentName = parentName;
-        this.dateOfBirth = dateOfBirth;
+    public Wrestler(int usawID, String wrestlerName, String ageGroup, String parentName, String email, String phone, String address, int zip, LocalDate dob, String gender, int id, String notes) {
+        this.usawID = usawID;
+        this.wrestlerName = wrestlerName;
         this.ageGroup = ageGroup;
-        this.school = school;
-        this.phone = phone;
-        this.gender = gender;
+        this.parentName = parentName;
         this.email = email;
-        this.rosterNotes = rosterNotes;
+        this.phone = phone;
+        this.address = address;
+        this.zip = zip;
+        this.dob = dob;
+        this.gender = gender;
+        this.id = id;
+        this.notes = notes;
     }
 
     public static void toEdit(Wrestler wrestler) {
-        if (wrestlerObservableList.contains(wrestler)) {
-           tempWrestler  = wrestler;
+        if (DBwrestlerObservableList.contains(wrestler)) {
+            tempWrestler = wrestler;
         }
     }
 
+    public static ObservableList<Wrestler> getListByAgeGroup(String ageGroup) {
+        ObservableList<Wrestler> wrestlerFromGroup = FXCollections.observableArrayList();
 
-    public int getMemberId() {
-        return memberId;
+        for (Wrestler wrestler : getDBwrestlerObservableList()) {
+            if (wrestler.getAgeGroup().equals(ageGroup)) {
+                wrestlerFromGroup.add(wrestler);
+
+            }
+        }
+        return wrestlerFromGroup;
     }
 
-    public int getUsawId() {
-        return usawId;
+
+    public static ObservableList<Wrestler> lookupWrestler(String name) {
+        ObservableList<Wrestler> filteredWrestlerList = FXCollections.observableArrayList();
+
+        for (Wrestler wrestler : Wrestler.getDBwrestlerObservableList()) {
+            if (wrestler.getWrestlerName().toLowerCase().contains(name.toLowerCase())) {
+                filteredWrestlerList.add(wrestler);
+            }
+        }
+        return filteredWrestlerList;
     }
 
-    public String getFirstName() {
-        return firstName;
+
+
+
+
+    public int getUsawID() {
+        return usawID;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getParentName() {
-        return ParentName;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public String getWrestlerName() {
+        return wrestlerName;
     }
 
     public String getAgeGroup() {
         return ageGroup;
     }
 
-    public String getSchool() {
-        return school;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getGender() {
-        return gender;
+    public String getParentName() {
+        return parentName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getRosterNotes() {
-        return rosterNotes;
+    public String getPhone() {
+        return phone;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public static ObservableList<Wrestler> getDBwrestlerObservableList() {
+        return DBwrestlerObservableList;
+    }
+
 }
