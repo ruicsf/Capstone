@@ -129,8 +129,9 @@ public class AddWrestlerController implements Initializable {
         ps.setString(11, notes);
         ps.setInt(12, Wrestler.tempWrestler.getId());
 
-        Wrestler.tempWrestler = null;
+
         ps.executeUpdate();
+        Wrestler.tempWrestler = null;
     }
 
 
@@ -161,6 +162,7 @@ public class AddWrestlerController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+        Wrestler.tempWrestler = null;
     }
 
     @Override
@@ -183,12 +185,12 @@ public class AddWrestlerController implements Initializable {
             dobDP.setValue(wrestler.getDob());
             emailText.setText(wrestler.getEmail());
             phoneText.setText(wrestler.getPhone());
+            addressText.setText(wrestler.getAddress());
+            zipText.setText(String.valueOf(wrestler.getZip()));
             genderCB.setValue(wrestler.getGender());
             notesText.setText(wrestler.getNotes());
             idAdd.setText(String.valueOf(wrestler.getId()));
 
-            // clears java list out but maintains tempwrestler
-            Wrestler.tempWrestler = null;
 
         }
 

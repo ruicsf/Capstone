@@ -1,12 +1,12 @@
 package Model;
 
-import Controller.AgeGroupInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 
-public class Wrestler implements AgeGroupInterface {
+public class Wrestler
+{
 
     private int usawID;
     private String wrestlerName;

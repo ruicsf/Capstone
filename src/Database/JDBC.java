@@ -66,29 +66,29 @@ public class JDBC {
     }
 
 
-//    /**
-//     * Method used for login credentials validation
-//     *
-//     * @param username username used for validation
-//     * @param pass     password used for validation
-//     * @return returns true if username and password match, otherwise returns false.
-//     * @throws SQLException
-//     */
-//    public boolean DBaccessValidation(String username, String pass) throws SQLException {
-//
-//        prepStmt = getConnection().prepareStatement("SELECT * FROM users WHERE User_Name=? ");
-//        prepStmt.setString(1, username);
-//        resultSet = prepStmt.executeQuery();
-//        if (!resultSet.next()) {
-//            return false;
-//        }
-//        if (pass.matches(resultSet.getString("Password"))) {
-//            int loggedUserID = resultSet.getInt("User_ID");
-//            String loggedUsername = resultSet.getString("User_Name");
-//            return true;
-//        }
-//        return false;
-//    }
+    /**
+     * Method used for login credentials validation
+     *
+     * @param username username used for validation
+     * @param password     password used for validation
+     * @return returns true if username and password match, otherwise returns false.
+     * @throws SQLException
+     */
+    public boolean DBaccessValidation(String username, String password) throws SQLException {
+
+        prepStmt = getConnection().prepareStatement("SELECT * FROM users WHERE User_Name=? ");
+        prepStmt.setString(1, username);
+        resultSet = prepStmt.executeQuery();
+        if (!resultSet.next()) {
+            return false;
+        }
+        if (password.matches(resultSet.getString("Password"))) {
+            int loggedUserID = resultSet.getInt("User_ID");
+            String loggedUsername = resultSet.getString("User_Name");
+            return true;
+        }
+        return false;
+    }
 
     public int getDatabaseRoster() {
 

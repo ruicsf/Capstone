@@ -101,8 +101,11 @@ public class MainMenuController implements Initializable {
 
 
     @FXML
-    void logoutOnBtn(ActionEvent event) {
-
+    void logoutOnBtn(ActionEvent event) throws IOException {
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../View/LoginView.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
@@ -116,7 +119,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void rosterDeleteOnActionBtn(ActionEvent event) throws SQLException {
-        Wrestler selectedWrestler = (Wrestler) rosterTable.getSelectionModel().getSelectedItem();
+        Wrestler selectedWrestler =  rosterTable.getSelectionModel().getSelectedItem();
 
         if (selectedWrestler == null) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);

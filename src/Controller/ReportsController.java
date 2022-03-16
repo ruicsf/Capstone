@@ -77,7 +77,6 @@ public class ReportsController implements Initializable {
         stage.show();
     }
 
-    RosterCounterInterface rosterCounter = () ->rosterSizeLbl.setText(String.valueOf(JDBC.mysqlDatabase.getDatabaseRoster()));
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
