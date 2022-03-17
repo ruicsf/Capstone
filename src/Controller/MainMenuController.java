@@ -1,6 +1,8 @@
 package Controller;
 
 import Database.JDBC;
+import Model.Parent1;
+import Model.Parent2;
 import Model.Wrestler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +35,7 @@ public class MainMenuController implements Initializable {
     Connection myConn = JDBC.getConnection();
 
     @FXML
-    private TableView<Wrestler> rosterTable;
+    private TableView rosterTable;
 
     @FXML
     private TableColumn<?, ?> rosterUsawIdCol;
@@ -69,35 +71,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private TextField wrestlerSearch;
 
-    @FXML
-    private TableView<?> praentTable;
 
-    @FXML
-    private TableColumn<?, ?> parentFirstNameCol;
-
-    @FXML
-    private TableColumn<?, ?> parentLastName;
-
-    @FXML
-    private TableColumn<?, ?> parentWrestlerNameCol;
-
-    @FXML
-    private TableColumn<?, ?> parentEmailCol;
-
-    @FXML
-    private TableColumn<?, ?> parentPhoneCol;
-
-    @FXML
-    private TableColumn<?, ?> parentAddresCol;
-
-    @FXML
-    private TableColumn<?, ?> parentZipCol;
-
-    @FXML
-    private TableColumn<?, ?> databseIdCol;
-
-    @FXML
-    private TextField parentSearch;
 
 
     @FXML
@@ -119,7 +93,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void rosterDeleteOnActionBtn(ActionEvent event) throws SQLException {
-        Wrestler selectedWrestler =  rosterTable.getSelectionModel().getSelectedItem();
+        Wrestler selectedWrestler = (Wrestler) rosterTable.getSelectionModel().getSelectedItem();
 
         if (selectedWrestler == null) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -150,8 +124,11 @@ public class MainMenuController implements Initializable {
     @FXML
     void rosterModifyOnActionBtn(ActionEvent event) {
         try {
-            Wrestler wrestler = rosterTable.getSelectionModel().getSelectedItem();
+            Wrestler wrestler = (Wrestler) rosterTable.getSelectionModel().getSelectedItem();
             Wrestler.toEdit(wrestler);
+
+            Parent1.parent1ToEdit(wrestler.getId());
+            Parent2.parent2ToEdit(wrestler.getId());
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../View/AddWrestlerView.fxml"));
@@ -161,8 +138,8 @@ public class MainMenuController implements Initializable {
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("No appointment selected");
-            alert.setContentText("Please select an appointment to modify");
+            alert.setHeaderText("No Selection");
+            alert.setContentText("Please make a selection");
             alert.showAndWait();
         }
     }
@@ -204,6 +181,8 @@ public class MainMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JDBC.mysqlDatabase = new JDBC();
         JDBC.mysqlDatabase.getDatabaseRoster();
+        JDBC.mysqlDatabase.getDBParent1List();
+        JDBC.mysqlDatabase.getDBParent2List();
 
 
         rosterUsawIdCol.setCellValueFactory(new PropertyValueFactory<>("usawID"));
@@ -221,6 +200,7 @@ public class MainMenuController implements Initializable {
 
 
         rosterTable.setItems(Wrestler.getDBwrestlerObservableList());
+
 
 
     }

@@ -10,8 +10,8 @@ public class Wrestler
 
     private int usawID;
     private String wrestlerName;
-    private String ageGroup;
     private String parentName;
+    private String ageGroup;
     private String email;
     private String phone;
     private String address;
@@ -30,11 +30,11 @@ public class Wrestler
     public static Wrestler tempWrestler;
 
 
-    public Wrestler(int usawID, String wrestlerName, String ageGroup, String parentName, String email, String phone, String address, int zip, LocalDate dob, String gender, int id, String notes) {
+    public Wrestler(int usawID, String wrestlerName, String parentName, String ageGroup, String email, String phone, String address, int zip,  LocalDate dob, String gender, int id, String notes) {
         this.usawID = usawID;
         this.wrestlerName = wrestlerName;
-        this.ageGroup = ageGroup;
         this.parentName = parentName;
+        this.ageGroup = ageGroup;
         this.email = email;
         this.phone = phone;
         this.address = address;
@@ -77,8 +77,6 @@ public class Wrestler
 
 
 
-
-
     public int getUsawID() {
         return usawID;
     }
@@ -91,24 +89,12 @@ public class Wrestler
         return ageGroup;
     }
 
-    public String getParentName() {
-        return parentName;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public String getPhone() {
         return phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public int getZip() {
-        return zip;
     }
 
     public LocalDate getDob() {
@@ -125,6 +111,18 @@ public class Wrestler
 
     public String getNotes() {
         return notes;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public String getParentName() {
+        return parentName;
     }
 
     public static ObservableList<Wrestler> getDBwrestlerObservableList() {

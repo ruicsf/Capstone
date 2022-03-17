@@ -53,7 +53,7 @@
                                                 <TableColumn fx:id="rosterUsawIdCol" maxWidth="75.0" prefWidth="161.99996948242188" text="USAW ID" />
                                                 <TableColumn fx:id="rosterFirstNameCol" prefWidth="131.0" text="Wrestler's Name" />
                                                 <TableColumn fx:id="rosterAageGroupCol" prefWidth="66.0" text="Age Group" />
-                                    <TableColumn fx:id="rosterParentNameCol" prefWidth="136.0" text="Parent Name" />
+                                    <TableColumn fx:id="rosterParentNameCol" prefWidth="136.0" text="Primary Parent " />
                                                 <TableColumn fx:id="rosterEmailCol" maxWidth="412.0" minWidth="9.0" prefWidth="121.0" style="-fx-alignment: center-left;" text="Email" />
                                                 <TableColumn fx:id="rosterPhoneCol" maxWidth="484.0" prefWidth="89.0" text="Phone" />
                                     <TableColumn fx:id="rosterAddressCol" maxWidth="150.0" prefWidth="116.0" text="Adress" />

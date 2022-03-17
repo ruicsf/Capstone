@@ -1,6 +1,8 @@
 package Controller;
 
 import Database.JDBC;
+import Model.Parent1;
+import Model.Parent2;
 import Model.Wrestler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +29,13 @@ public class AddWrestlerController implements Initializable {
 
 
     public TextField wrestlerNameText;
+    public TextField p1PhoneText;
+    public TextField p1EmailText;
+    public TextField p2NameText;
+    public TextField p2AddressText;
+    public TextField p2ZipText;
+    public TextField p2EmailText;
+    public TextField p2PhoneText;
     @FXML
     private TextField idAdd;
 
@@ -34,20 +43,10 @@ public class AddWrestlerController implements Initializable {
     private TextField usawIText;
 
     @FXML
-    private TextField firstNameText;
-
-    @FXML
-    private TextField parentNameText;
+    private TextField p1NameText;
 
     @FXML
     private DatePicker dobDP;
-
-    @FXML
-    private TextField phoneText;
-
-    @FXML
-    private TextField emailText;
-
     @FXML
     private ComboBox<String> ageGroupCB;
 
@@ -58,10 +57,10 @@ public class AddWrestlerController implements Initializable {
     private ComboBox<String> genderCB;
 
     @FXML
-    private TextField addressText;
+    private TextField p1AddressText;
 
     @FXML
-    private TextField zipText;
+    private TextField p1ZipText;
     Stage stage;
     Parent scene;
     PreparedStatement ps;
@@ -72,17 +71,22 @@ public class AddWrestlerController implements Initializable {
         int usawID = Integer.parseInt(usawIText.getText());
         String wrestlerName = wrestlerNameText.getText();
         String ageGroup = ageGroupCB.getValue();
-        String parentName = parentNameText.getText();
-        String email = emailText.getText();
-        String phone = phoneText.getText();
-        String address = addressText.getText();
-        int zip = Integer.parseInt(zipText.getText());
+        String parentName = p1NameText.getText();
+        String email = p1EmailText.getText();
+        String phone = p1PhoneText.getText();
+        String address = p1AddressText.getText();
+        int zip = Integer.parseInt(p1ZipText.getText());
         LocalDate dob = dobDP.getValue();
         String gender = genderCB.getValue();
         String notes = notesText.getText();
+        String p2Name = p2NameText.getText();
+        String p2Phone = p2PhoneText.getText();
+        String p2Address = p2AddressText.getText();
+        String p2Email= p2EmailText.getText();
+        int p2Zip =Integer.parseInt(p2ZipText.getText());
 
-        //                                       1         2              3          4         5       6       7     8     9     10      11
-        String insert = "INSERT INTO roster (USAW_ID, Wrestler_Name, Age_Group, Parent_Name, Email, Phone, Address, Zip, DOB, Gender,  Notes) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        //                                       1         2              3          4         5             6       7          8     9     10      11      12          13      14          15        16
+        String insert = "INSERT INTO roster (USAW_ID, Wrestler_Name, Age_Group, Parent1_Name, P1_Email, P1_Phone, P1_Address, P1_Zip, DOB, Gender,  Notes, P2_Name, P2_Phone, P2_Email, P2_Address, P2_Zip) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         ps = myConn.prepareStatement(insert);
         ps.setInt(1, usawID);
         ps.setString(2, wrestlerName);
@@ -95,6 +99,11 @@ public class AddWrestlerController implements Initializable {
         ps.setDate(9, Date.valueOf(dob));
         ps.setString(10, gender);
         ps.setString(11, notes);
+        ps.setString(12, p2Name);
+        ps.setString(13, p2Phone);
+        ps.setString(14, p2Email);
+        ps.setString(15, p2Address);
+        ps.setInt(16, p2Zip);
 
         ps.executeUpdate();
     }
@@ -103,18 +112,23 @@ public class AddWrestlerController implements Initializable {
         int usawID = Integer.parseInt(usawIText.getText());
         String wrestlerName = wrestlerNameText.getText();
         String ageGroup = ageGroupCB.getValue();
-        String parentName = parentNameText.getText();
-        String email = emailText.getText();
-        String phone = phoneText.getText();
-        String address = addressText.getText();
-        int zip = Integer.parseInt(zipText.getText());
+        String parentName = p1NameText.getText();
+        String email = p1EmailText.getText();
+        String phone = p1PhoneText.getText();
+        String address = p1AddressText.getText();
+        int zip = Integer.parseInt(p1ZipText.getText());
         LocalDate dob = dobDP.getValue();
         String gender = genderCB.getValue();
         String notes = notesText.getText();
+        String p2Name = p2NameText.getText();
+        String p2Phone = p2PhoneText.getText();
+        String p2Address = p2AddressText.getText();
+        String p2Email= p2EmailText.getText();
+        int p2Zip =Integer.parseInt(p2ZipText.getText());
 
 
-        //                                 //1             2                3          4          5         6         7       8      9      10        11           12
-        String update = "UPDATE roster SET USAW_ID = ?,Wrestler_Name=?,Age_Group=?,Parent_Name=?,Email=?, Phone=?, Address=?, Zip=?, DOB=?,Gender=?, Notes=? WHERE ID=?;";
+        //                                 //1             2                3          4            5              6         7               8      9      10        11           12       13          14          15          16            17
+        String update = "UPDATE roster SET USAW_ID = ?,Wrestler_Name=?,Age_Group=?,Parent1_Name=?,P1_Email=?, P2_Phone=?, P2_Address=?, P1_Zip=?, DOB=?,Gender=?, Notes=?, P2_Name=?, P2_Phone=?, P2_Email=?, P2_Address=?, P2_Zip=? WHERE ID=?;";
         ps = myConn.prepareStatement(update);
         ps.setInt(1, usawID);
         ps.setString(2, wrestlerName);
@@ -127,11 +141,19 @@ public class AddWrestlerController implements Initializable {
         ps.setDate(9, Date.valueOf(dob));
         ps.setString(10, gender);
         ps.setString(11, notes);
-        ps.setInt(12, Wrestler.tempWrestler.getId());
+        ps.setString(12, p2Name);
+        ps.setString(13, p2Phone);
+        ps.setString(14, p2Email);
+        ps.setString(15, p2Address);
+        ps.setInt(16, p2Zip);
+
+        ps.setInt(17, Wrestler.tempWrestler.getId());
 
 
         ps.executeUpdate();
         Wrestler.tempWrestler = null;
+        Parent2.tempParent1 = null;
+        Parent2.tempParent2 = null;
     }
 
 
@@ -180,16 +202,22 @@ public class AddWrestlerController implements Initializable {
 
             usawIText.setText(String.valueOf(wrestler.getUsawID()));
             wrestlerNameText.setText(wrestler.getWrestlerName());
-            parentNameText.setText(wrestler.getParentName());
+            p1NameText.setText(Parent1.tempParent1.getP1name());
             ageGroupCB.setValue(wrestler.getAgeGroup());
             dobDP.setValue(wrestler.getDob());
-            emailText.setText(wrestler.getEmail());
-            phoneText.setText(wrestler.getPhone());
-            addressText.setText(wrestler.getAddress());
-            zipText.setText(String.valueOf(wrestler.getZip()));
+            p1EmailText.setText(wrestler.getEmail());
+            p1PhoneText.setText(wrestler.getPhone());
+            p1AddressText.setText(Parent1.tempParent1.getP1address());
+            p1ZipText.setText(String.valueOf(Parent1.tempParent1.getP1zip()));
             genderCB.setValue(wrestler.getGender());
             notesText.setText(wrestler.getNotes());
             idAdd.setText(String.valueOf(wrestler.getId()));
+            p2NameText.setText(Parent2.tempParent2.getP1name());
+            p2EmailText.setText(Parent2.tempParent2.getP1email());
+            p2PhoneText.setText(Parent2.tempParent2.getP1phone());
+            p2AddressText.setText(Parent2.tempParent2.getP1address());
+            p2ZipText.setText(String.valueOf( Parent2.tempParent2.getP1zip()));
+
 
 
         }

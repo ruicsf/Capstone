@@ -1,6 +1,8 @@
 package Database;
 
 
+import Model.Parent1;
+import Model.Parent2;
 import Model.Wrestler;
 
 import java.sql.*;
@@ -26,6 +28,94 @@ public class JDBC {
     PreparedStatement prepStmt;
     ResultSet resultSet;
 
+
+
+    public int getDatabaseRoster() {
+
+        try {
+            String select = "SELECT * FROM roster;";
+            prepStmt = myConn.prepareStatement(select);
+
+            resultSet = prepStmt.executeQuery();
+            Wrestler.getDBwrestlerObservableList().clear();
+
+            while (resultSet.next()) {
+
+
+                Wrestler.getDBwrestlerObservableList().add(
+                        new Wrestler(
+
+                                resultSet.getInt("USAW_ID"),
+                                resultSet.getString("Wrestler_Name"),
+                                resultSet.getString("Parent1_Name"),
+                                resultSet.getString("Age_Group"),
+                                resultSet.getString("P1_Email"),
+                                resultSet.getString("P1_Phone"),
+                                resultSet.getString("P1_Address"),
+                                resultSet.getInt("P1_Zip"),
+                                resultSet.getTimestamp("DOB").toLocalDateTime().toLocalDate(),
+                                resultSet.getString("Gender"),
+                                resultSet.getInt("ID"),
+                                resultSet.getString("Notes")
+
+                        )
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Wrestler.getDBwrestlerObservableList().size();
+    }
+
+   public void getDBParent1List() {
+       try {
+           String select = "SELECT * FROM roster;";
+           prepStmt = myConn.prepareStatement(select);
+           resultSet = prepStmt.executeQuery();
+           Parent1.getDBparent1ObservableList().clear();
+
+           while (resultSet.next()) {
+               Parent1.getDBparent1ObservableList().add(
+                       new Parent1(
+                               resultSet.getString("Parent1_Name"),
+                               resultSet.getString("P1_Email"),
+                               resultSet.getString("P1_Phone"),
+                               resultSet.getString("P1_Address"),
+                               resultSet.getInt("P1_Zip"),
+                               resultSet.getInt("ID")
+                       )
+               );
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+   }
+
+
+    public void getDBParent2List(){
+        try {
+            String select = "SELECT * FROM roster;";
+            prepStmt = myConn.prepareStatement(select);
+            resultSet = prepStmt.executeQuery();
+            Parent2.getDBparent2ObservableList().clear();
+
+            while (resultSet.next()) {
+                Parent2.getDBparent2ObservableList().add(
+                        new Parent2(
+                                resultSet.getString("p2_Name"),
+                                resultSet.getString("P2_Email"),
+                                resultSet.getString("P2_Phone"),
+                                resultSet.getString("P2_Address"),
+                                resultSet.getInt("P2_Zip"),
+                                resultSet.getInt("ID")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Method for establishing a connection to the database.
      *
@@ -65,7 +155,6 @@ public class JDBC {
         }
     }
 
-
     /**
      * Method used for login credentials validation
      *
@@ -88,44 +177,6 @@ public class JDBC {
             return true;
         }
         return false;
-    }
-
-    public int getDatabaseRoster() {
-
-        try {
-            String select = "SELECT * FROM roster;";
-            prepStmt = myConn.prepareStatement(select);
-
-            resultSet = prepStmt.executeQuery();
-            Wrestler.getDBwrestlerObservableList().clear();
-
-            while (resultSet.next()) {
-
-
-                Wrestler.getDBwrestlerObservableList().add(
-                        new Wrestler(
-
-                                resultSet.getInt("USAW_ID"),
-                                resultSet.getString("Wrestler_Name"),
-                                resultSet.getString("Age_Group"),
-                                resultSet.getString("Parent_Name"),
-                                resultSet.getString("Email"),
-                                resultSet.getString("Phone"),
-                                resultSet.getString("Address"),
-                                resultSet.getInt("Zip"),
-                                resultSet.getTimestamp("DOB").toLocalDateTime().toLocalDate(),
-                                resultSet.getString("Gender"),
-                                resultSet.getInt("ID"),
-                                resultSet.getString("Notes")
-
-                        )
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Wrestler.getDBwrestlerObservableList().size();
     }
 
 }
