@@ -12,10 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -68,6 +65,8 @@ public class AddWrestlerController implements Initializable {
 
 
     public void insertDB() throws SQLException {
+        int zip = 0;
+        int p2Zip = 0;
         int usawID = Integer.parseInt(usawIText.getText());
         String wrestlerName = wrestlerNameText.getText();
         String ageGroup = ageGroupCB.getValue();
@@ -75,7 +74,9 @@ public class AddWrestlerController implements Initializable {
         String email = p1EmailText.getText();
         String phone = p1PhoneText.getText();
         String address = p1AddressText.getText();
-        int zip = Integer.parseInt(p1ZipText.getText());
+        if (!p1ZipText.getText().isEmpty()){
+            zip = Integer.parseInt(p1ZipText.getText());
+        }
         LocalDate dob = dobDP.getValue();
         String gender = genderCB.getValue();
         String notes = notesText.getText();
@@ -83,7 +84,11 @@ public class AddWrestlerController implements Initializable {
         String p2Phone = p2PhoneText.getText();
         String p2Address = p2AddressText.getText();
         String p2Email= p2EmailText.getText();
-        int p2Zip =Integer.parseInt(p2ZipText.getText());
+        if (!p2ZipText.getText().isEmpty()){
+             p2Zip =Integer.parseInt(p2ZipText.getText());
+        }
+
+
 
         //                                       1         2              3          4         5             6       7          8     9     10      11      12          13      14          15        16
         String insert = "INSERT INTO roster (USAW_ID, Wrestler_Name, Age_Group, Parent1_Name, P1_Email, P1_Phone, P1_Address, P1_Zip, DOB, Gender,  Notes, P2_Name, P2_Phone, P2_Email, P2_Address, P2_Zip) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -109,6 +114,8 @@ public class AddWrestlerController implements Initializable {
     }
 
     public void updateDB() throws SQLException {
+        int zip = 0;
+        int p2Zip = 0;
         int usawID = Integer.parseInt(usawIText.getText());
         String wrestlerName = wrestlerNameText.getText();
         String ageGroup = ageGroupCB.getValue();
@@ -116,7 +123,9 @@ public class AddWrestlerController implements Initializable {
         String email = p1EmailText.getText();
         String phone = p1PhoneText.getText();
         String address = p1AddressText.getText();
-        int zip = Integer.parseInt(p1ZipText.getText());
+        if (!p1ZipText.getText().isEmpty()){
+            zip = Integer.parseInt(p1ZipText.getText());
+        }
         LocalDate dob = dobDP.getValue();
         String gender = genderCB.getValue();
         String notes = notesText.getText();
@@ -124,7 +133,9 @@ public class AddWrestlerController implements Initializable {
         String p2Phone = p2PhoneText.getText();
         String p2Address = p2AddressText.getText();
         String p2Email= p2EmailText.getText();
-        int p2Zip =Integer.parseInt(p2ZipText.getText());
+        if (!p2ZipText.getText().isEmpty()){
+            p2Zip =Integer.parseInt(p2ZipText.getText());
+        }
 
 
         //                                 //1             2                3          4            5              6         7               8      9      10        11           12       13          14          15          16            17
@@ -156,24 +167,67 @@ public class AddWrestlerController implements Initializable {
         Parent2.tempParent2 = null;
     }
 
+    public boolean checkForBlankFields() {
+        if (usawIText.getText().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Blank Text Field");
+            a.setHeaderText("USAW ID no entry");
+            a.setContentText("Please enter the wrestler's USAW ID");
+            a.showAndWait();
+            return false;
+        }
+        if (wrestlerNameText.getText().isEmpty()){
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Blank Text Field");
+            a.setHeaderText("Name text field blank");
+            a.setContentText("Please enter the wrestler's name");
+            a.showAndWait();
+            return false;
+        }
+        if (dobDP.getValue()== null) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Selection error ");
+            a.setHeaderText("Date of birth not selected");
+            a.setContentText("Please select the wrestler's date of birth");
+            a.showAndWait();
+            return false;
+        }
+        if (ageGroupCB.getValue().isEmpty()) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Selection error");
+            a.setHeaderText("Age group not selected");
+            a.setContentText("Please select the wrestler's age group");
+            a.showAndWait();
+            return false;
+        }
+
+
+        return true;
+    }
 
     @FXML
     void saveWrestlerBtn(ActionEvent event) throws SQLException, IOException {
+        if (checkForBlankFields()){
+            if (Wrestler.tempWrestler != null) {
 
-        if (Wrestler.tempWrestler != null) {
+                updateDB();
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else {
 
-            updateDB();
-
-        } else {
-
-            insertDB();
+                insertDB();
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
 
         }
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+
+
     }
 
 
