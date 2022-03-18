@@ -1,7 +1,6 @@
 package Controller;
 
 import Database.JDBC;
-import Model.UserLog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
