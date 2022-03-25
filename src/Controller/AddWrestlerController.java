@@ -213,6 +213,7 @@ public class AddWrestlerController implements Initializable {
                 updateDB();
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+                stage.setTitle("Home");
                 stage.setScene(new Scene(scene));
                 stage.show();
             } else {
@@ -220,6 +221,7 @@ public class AddWrestlerController implements Initializable {
                 insertDB();
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+                stage.setTitle("Home");
                 stage.setScene(new Scene(scene));
                 stage.show();
             }
@@ -237,6 +239,7 @@ public class AddWrestlerController implements Initializable {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
         stage.setScene(new Scene(scene));
+        stage.setTitle("Home");
         stage.show();
         Wrestler.tempWrestler = null;
     }

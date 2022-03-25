@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
-    private static final String location = "//localhost/";
+    private static final String location = "//database-1.cntzuco7cpke.us-east-1.rds.amazonaws.com/";
     private static final String databaseName = "abc_wrestling";
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER";
     private static final String driver = "com.mysql.cj.jdbc.Driver";
@@ -28,17 +28,29 @@ public class JDBC {
     PreparedStatement prepStmt;
     ResultSet resultSet;
 
-
+    /**
+     * Method for establishing a connection to the database.
+     *
+     * @return connection.
+     */
+    public static Connection Connect() {
+        try {
+            Class.forName(driver);
+            connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
+            System.out.println(jdbcUrl + " " + userName + " " + password + " " + "\nConnection link created");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
 
     public int getDatabaseRoster() {
 
         try {
             String select = "SELECT * FROM roster;";
             prepStmt = myConn.prepareStatement(select);
-
             resultSet = prepStmt.executeQuery();
             Wrestler.getDBwrestlerObservableList().clear();
-
             while (resultSet.next()) {
 
 
@@ -116,21 +128,7 @@ public class JDBC {
             e.printStackTrace();
         }
     }
-    /**
-     * Method for establishing a connection to the database.
-     *
-     * @return connection.
-     */
-    public static Connection Connect() {
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
-            System.out.println(jdbcUrl + " " + userName + " " + password + " " + "\nConnection link created");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
+
 
     /**
      * Method to get connection for database.

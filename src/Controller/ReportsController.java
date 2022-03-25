@@ -73,6 +73,7 @@ public class ReportsController implements Initializable {
     void exitOnBtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/MainMenuView.fxml"));
+        stage.setTitle("Home");
         stage.setScene(new Scene(scene));
         stage.show();
     }

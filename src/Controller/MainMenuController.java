@@ -78,6 +78,7 @@ public class MainMenuController implements Initializable {
     void logoutOnBtn(ActionEvent event) throws IOException {
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/LoginView.fxml"));
+        stage.setTitle("Login");
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -87,6 +88,7 @@ public class MainMenuController implements Initializable {
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/ReportsView.fxml"));
+        stage.setTitle("Reports");
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -132,6 +134,7 @@ public class MainMenuController implements Initializable {
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../View/AddWrestlerView.fxml"));
+            stage.setTitle("Edit wrestler");
             stage.setScene(new Scene(scene));
             stage.show();
 
@@ -161,16 +164,7 @@ public class MainMenuController implements Initializable {
 
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../View/AddWrestlerView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
-    }
-
-    @FXML
-    void parentAddBtn(ActionEvent event) throws IOException {
-
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../View/AddParentView.fxml"));
+        stage.setTitle("Add Wrestler");
         stage.setScene(new Scene(scene));
         stage.show();
 

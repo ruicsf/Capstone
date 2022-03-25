@@ -21,25 +21,16 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-    @FXML
-    private AnchorPane root;
-    @FXML
-    private Label titleLbl;
-    @FXML
-    private Button loginButton;
+
     @FXML
     private Label invalidLoginLbl;
-    @FXML
-    private Label usernameLbl;
+
     @FXML
     private TextField usernameTxt;
-    @FXML
-    private Label passwordLbl;
+
     @FXML
     private PasswordField passwordTxt;
-    @FXML
-    private Label ZoneIDLbl;
-    @FXML
+
 
 
     Stage stage;
@@ -66,6 +57,7 @@ public class LoginController implements Initializable {
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../View/MainMenuView.fxml")));
+                stage.setTitle("Home");
                 stage.setScene(new Scene(scene));
                 stage.show();
 
